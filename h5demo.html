@@ -53,6 +53,7 @@
         oPrev.onclick=function(){
             clearInterval(timer);
             arr.unshift(arr.pop());
+            move();
         };
         function move(){
             for(var i=0;i<aLi.length;i++){
