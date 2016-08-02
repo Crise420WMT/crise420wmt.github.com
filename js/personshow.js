@@ -166,10 +166,10 @@ $("#header_p").mouseover(function(){
     $("#header_p2").html("个人简历");
 })
 //顶部导航取消
-$("header nav a:not(':first')").click(function(){
-    alert("正在努力建设中...请稍等");
-    return false;
-})
+//$("header nav a:not(':first')").click(function(){
+//    alert("正在努力建设中...请稍等");
+//    return false;
+//})
 //侧边导航文字切换
 $("aside a").hover(function(){
     $(this).find("b").fadeToggle(200,"easeInOutCubic");
