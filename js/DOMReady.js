@@ -1,4 +1,4 @@
-function DOMReady(fn){
+function domReady(fn){
     if(document.addEventListener){
         document.addEventListener('DOMContentLoaded',function(){
             fn&&fn();

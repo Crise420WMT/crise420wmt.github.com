@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title></title>
+<style>
+    *{margin: 0;padding: 0;list-style: none;}
+    #box{width: 400px;position: relative;margin: 200px auto;}
+    #t1{position:absolute;left:0;top:0;width: 400px;height: 20px;padding:10px 7px;padding-right:48px;border:1px solid #b8b8b8;border-right:0;font:16px arial;}
+    #t1.active{outline:none;border: 1px solid #3388ff;_box-shadow: none;}
+    #btn{position:absolute;left:456px;top:0;width: 102px;height: 42px;background: #38f;border: none;color: white;}
+    span{position: absolute;left:422px;top:13px;width: 18px;height: 16px;background: url("image/baidu_camera.png") no-repeat;}
+    #oul{display:none;position: absolute;left: -1px;top:42px;border-top:0;width: 456px;border: 1px solid silver;box-shadow: 1px 1px 3px #ededed;}
+    #oul li{width: 446px;height: 30px;line-height: 30px;padding-left: 10px;}
+    #oul li.ac{background: #CCCCCC;}
+</style>
+<script src="js/jsonp.js"></script>
+<script>
+    window.onload=function(){
+        var oDiv=document.getElementById('box');
+        var oT=document.getElementById('t1');
+        var oUl=document.getElementById('oul');
+
+        var url='https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su';
+        oT.focus();
+        oT.onkeyup=function(ev){
+            var oEvent=ev||event;
+            if(oEvent.keyCode==38||oEvent.keyCode==40)return;
+
+            jsonp({
+                url:url,
+                data:{
+                    wd:oT.value
+                },
+                success:function(json){
+                    oUl.style.display='block';
+                    oUl.innerHTML='';
+                    var arr=json.s;
+                    //console.log(str);
+                    for(var i=0;i<arr.length;i++){
+                        var oLi=document.createElement('li');
+                        oLi.innerHTML=arr[i];
+                        oUl.appendChild(oLi);
+                    }
+                    var aLi=document.querySelectorAll('#oul li');
+                    for(var i=0;i<aLi.length;i++){
+                        ;(function(index){
+                            aLi[index].onmouseover=function(){
+                                for(var i=0;i<aLi.length;i++){
+                                    aLi[i].className='';
+                                }
+                                //console.log(index);
+                                iNow=index;
+                                aLi[index].className='ac';
+                            }
+                        })(i);
+                    }
+                    oldValue=oT.value;
+                }
+            })
+        };
+        oT.onmousedown=function(){
+            oUl.style.display='block';
+            oT.className='active';
+        };
+        oT.onblur=function(){
+            oUl.style.display='none';
+            oT.className='';
+        };
+        var iNow=-1;
+        oT.onkeydown=function(ev){
+            var oEvent=ev||event;
+            //console.log(typeof oEvent.keyCode);
+            switch (oEvent.keyCode){
+                case 13:
+                    window.open('https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=0&rsv_idx=1&tn=baidu&wd='+oT.value+'');
+                    break;
+                case 38:
+                    iNow--;
+                    var aLi=oUl.children;
+                    if(iNow==-2)iNow=aLi.length-1;
+                    for(var i=0;i<aLi.length;i++){
+                        aLi[i].className='';
+                    }
+                    if(iNow==-1){
+                        oT.value=oldValue;
+                    }else{
+                        oT.value=aLi[iNow].innerHTML;
+                        aLi[iNow].className='ac';
+                    }
+                    break;
+                case 40:      //这里不能用'40'
+                    iNow++;
+                    var aLi=oUl.children;
+                    (iNow==aLi.length)&&(iNow=-1);
+                    for(var i=0;i<aLi.length;i++){
+                        aLi[i].className='';
+                    }
+                    if(iNow==-1){
+                        oT.value=oldValue;
+                    }else{
+                        oT.value=aLi[iNow].innerHTML;
+                        aLi[iNow].className='ac';
+                    }
+                    break;
+            }
+        }
+    }
+</script>
+</head>
+<body>
+<div id="box">
+    <input type="text" id="t1"/>
+    <input id="btn" type="button" value="百度一下"/>
+    <span></span>
+    <ul id="oul"></ul>
+</div>
+
+</body>
+</html>

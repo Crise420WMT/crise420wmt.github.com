@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{margin: 0;padding: 0;}
+        .can{border: 1px solid red;background: silver;float:left;cursor:pointer;}
+        input{float: left;}
+    </style>
+    <script>
+        window.onload=function(){
+            var oCan=document.querySelector('.can');
+            var oBtn=document.querySelector('input');
+            var gd=oCan.getContext('2d');
+
+            oCan.onmousedown=function(ev){
+                var downX=ev.clientX;
+                var downY=ev.clientY;
+
+                gd.beginPath();
+                gd.moveTo(downX,downY);
+                oCan.onmousemove=function(ev){
+                    gd.lineTo(ev.clientX,ev.clientY);
+                    gd.stroke();
+                };
+                oCan.onmouseup=function(ev){
+                    oCan.onmousemove=null;
+                    oCan.onmouseup=null;
+                };
+                return false;
+            };
+            oBtn.onchange=function(){
+                gd.strokeStyle=this.value;
+            };
+        };
+    </script>
+</head>
+<body>
+    <canvas class="can" width="600" height="600">
+        抱歉，您的浏览器不支持canvas
+    </canvas>
+    <input type="color" name="" id=""/>
+</body>
+</html>

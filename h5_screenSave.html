@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{margin: 0;padding: 0;}
+        body{overflow: hidden;}
+        #can{background: #000000;}
+    </style>
+    <script>
+        function rnd(n,m){
+            return parseInt(Math.random()*(m-n))+n;
+        }
+        window.onload=function(){
+            var oCan=document.querySelector('#can');
+            var gd=oCan.getContext('2d');
+
+            oCan.width=document.documentElement.clientWidth;
+            oCan.height=document.documentElement.clientHeight;
+
+            var N=5;
+            var oW=1;
+            var oH=1;
+            var aPoint=[];
+
+            for(var i=0;i<N;i++){
+                var x=rnd(0,oCan.width-oW);
+                var y=rnd(0,oCan.height-oH);
+
+                aPoint[i]={x:x,y:y,iSpeedX:rnd(-5,5),iSpeedY:rnd(-5,5)};
+                gd.strokeRect(aPoint[i].x,aPoint[i].y,oW,oH);
+            }
+            gd.strokeStyle='white';
+            gd.moveTo(aPoint[0].x,aPoint[0].y);
+            for(var i=1;i<aPoint.length;i++){
+                gd.lineTo(aPoint[i].x,aPoint[i].y);
+            }
+            gd.closePath();
+            gd.stroke();
+
+            var oldPoint=[];
+            setInterval(function(){
+                gd.clearRect(0,0,oCan.width,oCan.height);
+                for(var i=0;i<aPoint.length;i++){
+                    aPoint[i].x+=aPoint[i].iSpeedX;
+                    aPoint[i].y+=aPoint[i].iSpeedY;
+                    if(aPoint[i].x<0){
+                        aPoint[i].x=0;
+                        aPoint[i].iSpeedX*=-1;
+                    }
+                    if(aPoint[i].y<0){
+                        aPoint[i].y=0;
+                        aPoint[i].iSpeedY*=-1;
+                    }
+                    if(aPoint[i].x>oCan.width-oW){
+                        aPoint[i].x=oCan.width-oW;
+                        aPoint[i].iSpeedX*=-1;
+                    }
+                    if(aPoint[i].y>oCan.height-oH){
+                        aPoint[i].y=oCan.height-oH;
+                        aPoint[i].iSpeedY*=-1;
+                    }
+                    gd.strokeRect(aPoint[i].x,aPoint[i].y,oW,oH);
+                }
+                var arr=[];
+
+                gd.beginPath();
+                //gd.strokeStyle='white';
+                arr[0]={x:aPoint[0].x,y:aPoint[0].y};
+                gd.moveTo(aPoint[0].x+oW/2,aPoint[0].y+oH/2);
+                for(var i=1;i<aPoint.length;i++){
+                    gd.lineTo(aPoint[i].x+oW/2,aPoint[i].y+oH/2);
+                    arr[i]={x:aPoint[i].x,y:aPoint[i].y};
+                }
+                oldPoint.push(arr);
+                if(oldPoint.length>50){
+                    oldPoint.shift();
+                }
+                gd.closePath();
+                gd.stroke();
+
+
+                for(var i=0;i<oldPoint.length;i++){
+                    var scale=i/oldPoint.length;
+
+                    gd.beginPath();
+                    gd.strokeStyle='rgba(255,255,255,'+scale+')';
+                    gd.moveTo(oldPoint[i][0].x,oldPoint[i][0].y);
+                    for(var j=1;j<N;j++){
+                        gd.lineTo(oldPoint[i][j].x,oldPoint[i][j].y);
+                    }
+                    gd.closePath();
+                    gd.stroke();
+                }
+
+            },16);
+        };
+    </script>
+</head>
+<body>
+<canvas id="can"></canvas>
+</body>
+</html>

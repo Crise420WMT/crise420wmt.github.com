@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title></title>
+<style>
+    * { padding: 0; margin: 0; }
+    body { background: #42509a; }
+    ul { width: 800px; height: 500px; border: 1px solid #333; background: #05090e; overflow: hidden; position: fixed; left:50%; margin-left:-400px; margin-top:50px; }
+    li { position: absolute; list-style: none; }
+    #pic1 { top: 210px; left: 550px; }
+    #pic2 { top: 290px; left: 430px; }
+    #pic3 { top: 215px; left: 220px; }
+    #pic4 { top: 150px; left: 100px;  }
+    #pic6 { top: 290px; left: 80px;  }
+    #pic7 { top: 120px; left: 480px;  }
+    #pic8 { top: 60px; left: 380px;  }
+    #pic5 { top: -40px; left: -50px; width: 1422px; height: 1000px; background: url(image/3dshow_bg.jpg) no-repeat; }
+    ul img{width: 186px;height: 149px;}
+    p{text-align:center; padding:10px 0; color:#FFF;}
+    p a{color:#FFF; text-decoration:none;}
+    p a:hover{text-decoration:underline;}
+</style>
+<script>
+    window.onload=function(){
+        var oUl=document.getElementById('ul_container');
+        var aLi=oUl.children;
+
+        //console.log(aLi[0].offsetLeft);
+        oUl.onmousedown=function(ev){
+            var oEvent=ev||event;
+            var lastX=oEvent.clientX;
+            var lastY=oEvent.clientY;
+
+            document.onmousemove=function(ev){
+                var oEvent=ev||event;
+                var disX=oEvent.clientX-lastX;
+                var disY=oEvent.clientY-lastY;
+
+                for(var i=0;i<aLi.length-1;i++){
+                    //console.log(1);
+                    aLi[i].style.marginLeft=disX/15*aLi[i].style.zIndex+'px';
+                    aLi[i].style.marginTop=disY/15*aLi[i].style.zIndex+'px';
+                }
+            };
+            document.onmouseup=function(){
+                document.onmousemove=null;
+                document.onmouseup=null;
+            };
+            return false;
+        };
+    };
+</script>
+</head>
+<body>
+<ul id="ul_container">
+    <li id="pic1" style="z-index: 3;"><img src="image/taobao_img1.jpg" alt="找华哥" /></li>
+    <li id="pic2" style="z-index: 4;"><img src="image/taobao_img2.jpg" alt="找华哥" /></li>
+    <li id="pic3" style="z-index: 5;"><img src="image/taobao_img3.jpg" alt="找华哥" /></li>
+    <li id="pic4" style="z-index: 4;"><img src="image/taobao_img4.jpg" alt="找华哥" /></li>
+    <li id="pic6" style="z-index: 3;"><img src="image/taobao_img5.jpg" alt="找华哥" /></li>
+    <li id="pic7" style="z-index: 2;"><img src="image/taobao_img6.jpg" alt="找华哥" /></li>
+    <li id="pic8" style="z-index: 5;"><img src="image/taobao_img7.jpg" alt="找华哥" /></li>
+    <li id="pic5" style="z-index: 1;"></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,60 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>手风琴效果</title>
+<style>
+    *{ margin:0; padding:0; list-style:none;}
+    body{background: silver;}
+    #box{ overflow:hidden; width:600px;border: 1px solid #000000; height:337px; position:relative; margin:100px auto;}
+    #box ul{ position:relative;}
+    #box ul li{ position:absolute; left:0; top:0; width:600px; height:337px;border: 1px solid sandybrown;}
+</style>
+<script src="js/move.js"></script>
+<script>
+    window.onload=function(){
+        var oBox=document.getElementById('box');
+        var aBtn=oBox.getElementsByTagName('li');
+        var oW=600;
+        var defaultW=30;
+
+         for(var i=1;i<aBtn.length;i++){
+
+            aBtn[i].style.left=oW-(aBtn.length-i)*defaultW+'px';
+//				aBtn[i].style.left=i*defaultW+'px';
+
+            //i=1  480
+            //i=2  510
+            //i=3  540
+            //i=4  570
+        }
+        for(var i=0;i<aBtn.length;i++){
+            aBtn[i].index=i;
+            aBtn[i].onmouseover=function(){
+                for(var i=0;i<aBtn.length;i++){
+                    if(this.index>=i){
+                        move(aBtn[i],{left:i*defaultW},{time:300});
+                        //aBtn[i].style.left=i*defaultW+'px';
+                    }else{
+                        move(aBtn[i],{left:oW-(aBtn.length-i)*defaultW},{time:300});
+                        //aBtn[i].style.left=oW-(aBtn.length-i)*defaultW+'px';
+                    }
+                }
+            }
+        }
+
+    }
+</script>
+</head>
+<body>
+<div id="box">
+    <ul>
+        <li><img src="image/taobao_img1.jpg" width="600"></li>
+        <li><img src="image/taobao_img2.jpg" width="600"></li>
+        <li><img src="image/taobao_img3.jpg" width="600"></li>
+        <li><img src="image/taobao_img12.jpg" width="600"></li>
+        <li><img src="image/taobao_img7.jpg" width="600"></li>
+    </ul>
+</div>
+</body>
+</html>

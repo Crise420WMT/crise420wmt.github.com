@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/h5demo.css">
+<script src="js/DOMReady.js"></script>
+<script src="js/elastic.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/move.js"></script>
+<script src="js/clock.js"></script>
+<script>
+    var arrImg=[
+        {href:'h5_3Dcorridor.html',src:'3Dcorridor.jpg',word:'左右移动旋转y轴，上下移动改变景深，主要改变transform'},
+        //{href:'h5_3dEffect.html',src:'3'}
+        {href:'h5_3dRing.html',src:'3dRing.jpg',word:'3d环的特效显示，可上下左右拖动'},
+        {href:'h5_screenSave.html',src:'screenSave.jpg',word:'屏幕保护效果，主要用到canvas实现'},
+        {href:'h5_3dEffect2.html',src:'3dEffect_1.jpg',word:'图片的3d翻面效果，仿游戏网站'},
+        {href:'drawBoard.html',src:'drawBoard.jpg',word:'模拟画图板效果，主要用到canvas实现'},
+        {href:'h5_3dEffect1.html',src:'3dEffect_0.jpg',word:'图片的3d屏幕碎裂效果，仿电视镜头'},
+        {href:'h5_moreabtn.html',src:'moreabtn.jpg',word:'丰富的按钮效果，主要用到css3'},
+        {href:'h5_3dEffect3.html',src:'3dEffect_2.jpg',word:'图片的3d翻书效果，灵感来源于国外的threeJs网站'},
+        {}
+    ];
+    domReady(function(){
+        var oPrev=document.querySelector('.prev');
+        var oNext=document.querySelector('.next');
+        var oUl=document.querySelector('#ul1');
+        var aLi=oUl.children;
+        var arr=[];
+        var timer=null;
+
+        for(var i=0;i<aLi.length;i++){
+            arr[i]=aLi[i].className;
+            aLi[i].innerHTML='<a href="'+arrImg[i].href+'" target="_blank"><img src="image/'+arrImg[i].src+'">'
+                    +'<div class="div_hidden">'+arrImg[i].word+'</div></a>';
+            aLi[i].children[0].children[0].style.width=480+'px';
+            aLi[i].children[0].children[0].style.height=316+'px';
+            //aLi[i].children[0].children[1]
+        }
+        oNext.onmouseover=oPrev.onmouseover=oUl.onmouseover=function(){
+            clearInterval(timer);
+        };
+        oNext.onmouseout=oPrev.onmouseout=oUl.onmouseout=function(){
+            next();
+        };
+        oNext.onclick=function(){
+            clearInterval(timer);
+            arr.push(arr.shift());
+            move();
+        };
+        oPrev.onclick=function(){
+            clearInterval(timer);
+            arr.unshift(arr.pop());
+        };
+        function move(){
+            for(var i=0;i<aLi.length;i++){
+                aLi[i].className=arr[i];
+            }
+        }
+        function next(){
+            clearInterval(timer);
+            timer=setInterval(function(){
+                arr.unshift(arr.pop());
+                move();
+            },1500);
+        }
+        next();
+    });
+</script>
+</head>
+<body>
+<!--公用头部-->
+<div class="head">
+    <div id="h_con">
+        <p>据说聪明人3秒钟可以记住这个网址!!!</p>
+    </div>
+    <div class="nav">
+        <div class="logo">
+            <a href="index.html">Crise</a>
+        </div>
+        <div class="navTxt">
+            <div class="hover"></div>
+            <a href="index.html">首&nbsp;页</a><span>|</span>
+            <a href="css01_desc.html" target="_blank">H5 demo</a><span>|</span>
+            <a href="js02_desc.html" target="_blank">个人 show</a><span>|</span>
+            <a href="html5_01_desc.html" target="_blank">JS demo</a><span>|</span>
+            <a href="video.html" target="_blank">小游戏</a><span>|</span>
+            <a href="works.html" target="_blank">项目经验</a><span>|</span>
+            <a href="contact.html" target="_blank">blog 博客</a>
+        </div>
+    </div>
+</div>
+<!--content内容-->
+<div class="content">
+    <div class="c_btn">
+        <a class="prev" href="javascript:;"></a>
+        <a class="next" href="javascript:;"></a>
+    </div>
+    <div class="c_box">
+        <ul id="ul1">
+            <li class="left2"></li>
+            <li class="left"></li>
+            <li class="now"></li>
+            <li class="right"></li>
+            <li class="right2"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+
+        </ul>
+    </div>
+</div>
+<!--footer公共尾部-->
+<div class="footer">
+    <div id="clock_3d">
+        <div class="d_container" style="transform: rotateX(5.96858deg) rotateY(10.1039deg);">
+            <div class="num_container">
+                <ul style="transform: rotateX(0deg);">
+                    <li class="clock_3d_front"><span>1</span></li>
+                    <li class="clock_3d_back"><span>1</span></li>
+                    <li class="clock_3d_top"><span>1</span></li>
+                    <li class="clock_3d_bottom"><span>1</span></li>
+                </ul></div><div class="num_container">
+            <ul style="transform: rotateX(0deg);">
+                <li class="clock_3d_front"><span>9</span></li>
+                <li class="clock_3d_back"><span>9</span></li>
+                <li class="clock_3d_top"><span>9</span></li>
+                <li class="clock_3d_bottom"><span>9</span></li>
+            </ul>
+        </div>
+            <span class="split">:</span>
+            <div class="num_container">
+                <ul style="transform: rotateX(-90deg);">
+                    <li class="clock_3d_front"><span>2</span></li>
+                    <li class="clock_3d_back"><span>2</span></li>
+                    <li class="clock_3d_top"><span>2</span></li>
+                    <li class="clock_3d_bottom"><span>1</span></li>
+                </ul>
+            </div>
+            <div class="num_container">
+                <ul style="transform: rotateX(0deg);">
+                    <li class="clock_3d_front"><span>0</span></li>
+                    <li class="clock_3d_back"><span>0</span></li>
+                    <li class="clock_3d_top"><span>0</span></li>
+                    <li class="clock_3d_bottom"><span>9</span></li>
+                </ul>
+            </div>
+            <span class="split">:</span>
+            <div class="num_container">
+                <ul style="transform: rotateX(0deg);">
+                    <li class="clock_3d_front"><span>4</span></li>
+                    <li class="clock_3d_back"><span>4</span></li>
+                    <li class="clock_3d_top"><span>4</span></li>
+                    <li class="clock_3d_bottom"><span>3</span></li>
+                </ul>
+            </div>
+            <div class="num_container">
+                <ul style="transform: rotateX(0deg);">
+                    <li class="clock_3d_front"><span>1</span></li>
+                    <li class="clock_3d_back"><span>3</span></li>
+                    <li class="clock_3d_top"><span>2</span></li>
+                    <li class="clock_3d_bottom"><span>0</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

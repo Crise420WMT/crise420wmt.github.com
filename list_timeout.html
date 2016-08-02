@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title></title>
+<style>
+    * { padding: 0; margin: 0; }
+    body { background: #191919;url(../image/body.jpg); margin: 20px 0; }
+    #box { width: 600px; height: 660px; background: url(image/timeOut_bg.jpg) no-repeat; position: relative; margin: 0 auto; }
+    #fill_in { font-size: 14px; color: #ccc; font-weight: bold; position: absolute; top: 108px; left: 136px; }
+    #fill_in input { background: none; border: 0; text-align: center; font-weight: bold; font-size: 14px; color: #ccc; float: left; overflow: hidden;height: 18px; line-height: 18px; color: #666; position: relative; top: 2px; outline:none;}
+    #fill_in span { float: left; padding-top: 4px; text-align:center; }
+    #fill_in .long_text { width: 80px;  }
+    #fill_in .text { width: 50px; }
+    #fill_in .title { width: 60px; }
+    #fill_in .space1 { width: 36px; }
+    #fill_in .space2 { width: 28px; }
+    #fill_in .space3 { padding-left: 8px; }
+    .go { position: absolute; top: 155px; left: 237px; width: 150px; height: 150px; }
+    .go:hover { background: url(image/btn_hover.jpg) no-repeat; }
+    .active {position: absolute; top: 155px; left: 237px; width: 150px; height: 150px; background: url(image/btn_hover.jpg) no-repeat; filter:alpha(opacity:0); opacity:0;}
+    #target { width: 100%; text-align: center; color: #ccc; font-weight: bold; position: absolute; left: 0; top: 336px; font-family: arial; }
+    #target strong { color: #fef58c; }
+    #date { position: absolute; top: 392px; right: 92px; color: #fc3; font-size: 48px; font-family: arial; font-weight: bold; }
+    #date p { position: absolute; top: 0; }
+    #day { right: 340px; }
+    #hour { right: 236px; }
+    #min { right: 102px; }
+    #sec { right: 0; }
+    h1 { position: absolute; bottom: 0; right: 0; }
+    h1 a { position: absolute; right: 40px; bottom: 30px; width: 292px; height: 72px; }
+</style>
+<script>
+    function toDou(n){
+        return n<10?'0'+n:''+n;
+    }
+    window.onload=function(){
+        var aT=document.getElementsByTagName('input');
+        var aA=document.getElementById('go');
+        var oDiv=document.getElementById('date');
+        var aP=oDiv.getElementsByTagName('p');
+        var oStrong=document.getElementById('now');
+        //alert(aP.length);
+        function clock(){
+            var oDate=new Date();
+            oDate.setFullYear(aT[0].value,aT[1].value,aT[2].value);
+            oDate.setHours(0,0,0,0);
+            //alert(oDate.getTime());
+            var now=new Date();
+
+            var oS=parseInt((oDate.getTime()-now.getTime())/1000);
+            var oD=parseInt(oS/86400);
+            oS%=86400;
+            var oH=parseInt(oS/3600);
+            oS%=3600;
+            var oM=parseInt(oS/60);
+            oS%=60;
+
+            var arr=[toDou(oD),toDou(oH),toDou(oM),toDou(oS)];
+
+            for(var i=0;i<arr.length;i++){
+                aP[i].innerHTML=arr[i];
+            }
+            oStrong.innerHTML=now.getFullYear()+'年'+toDou(now.getMonth()+1)+'月'+toDou(now.getDate())+'日';
+        }
+        var timer=null;
+
+        aA.onclick=function(){
+            clearInterval(timer);
+            clock();
+            timer=setInterval(clock,1000);
+        }
+    }
+</script>
+</head>
+<body>
+<div id="box">
+    <div id="fill_in">
+        <span class="title">请输入：</span>
+        <input type="text" class="long_text" value="2016" />
+        <span class="space1">年</span>
+        <input type="text" class="text" value="10" />
+        <span class="space2">月</span>
+        <input type="text" class="text" value="1" />
+        <span class="space3">日</span>
+    </div>
+
+    <a href="javascript:;" id="go" class="go"></a>
+
+    <p id="target">
+        现在距离 -
+        <strong id="now">2016年03月22日</strong>
+        - 还剩：
+    </p>
+
+    <div id="date">
+        <p id="day">00</p>
+        <p id="hour">00</p>
+        <p id="min">00</p>
+        <p id="sec">00</p>
+    </div>
+
+    <h1 title="Crise420wmt"><a href="index.html"></a></h1>
+</div>
+</body>
+</html>

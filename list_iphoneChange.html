@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #box{position:absolute;width:100%;text-align: center;bottom: 0;}
+        #box img{width:64px;height: 64px;}
+    </style>
+    <script>
+        window.onload=function(){
+            var oDiv=document.getElementById('box');
+            var aT=document.getElementsByTagName('input');
+            var aImg=document.querySelectorAll('#box img');
+
+            document.onmousemove=function(ev){
+                var oEvent=ev||event;
+
+                for(var i=0;i<aImg.length;i++){
+                    var x=aImg[i].offsetLeft+oDiv.offsetLeft+aImg[i].offsetWidth/2;
+                    var y=aImg[i].offsetTop+oDiv.offsetTop+aImg[i].offsetHeight/2;
+                    var a=x-oEvent.clientX;
+                    var b=y-oEvent.clientY;
+
+                    var dis=Math.sqrt(a*a+b*b);
+                    var scale=Math.abs(1-dis/500);
+                    (scale<0.5)&&(scale=0.5);
+                    aT[i].value=parseFloat(scale).toFixed(2);
+                    aImg[i].style.width=128*scale+'px';
+                    aImg[i].style.height=128*scale+'px';
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<input type="text"/>
+<input type="text"/>
+<input type="text"/>
+<input type="text"/>
+<input type="text"/>
+<div id="box">
+    <img src="image/iphoneChange_1.png" alt=""/>
+    <img src="image/iphoneChange_2.png" alt=""/>
+    <img src="image/iphoneChange_3.png" alt=""/>
+    <img src="image/iphoneChange_4.png" alt=""/>
+    <img src="image/iphoneChange_5.png" alt=""/>
+</div>
+</body>
+</html>

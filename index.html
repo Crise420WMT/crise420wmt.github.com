@@ -1,204 +1,196 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-    <style>
-        *{margin: 0;padding: 0;list-style: none;}
-        #box{margin: 100px auto;width: 800px;}
-        input{margin-right: 10px;}
-        span strong{color: red;}
-        #main{margin-top:20px;background-image:url("img/canvas.jpg");
-            border: 1px solid #000000;position: relative;}
-    </style>
-    <script src="js/DOMReady.js"></script>
-    <script>
-        function rnd(n,m){
-            return parseInt(Math.random()*(m-n))+n;
-        }
-        DOMReady(function(){
-            var oStart=document.getElementById('open');
-            var oScore=document.querySelector('.score');
-            var oMain=document.getElementById('main');
-            var snackBody=[{left:0,top:1,background:'pink',obj:null},{left:1,top:1,background:'pink',obj:null},{left:2,top:1,background:'red',obj:null}];
-            var oAcc=document.getElementById('accelerate');
-            var oPause=document.getElementById('pause');
-            var reStart=document.getElementById('restart');
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Win8主页</title>
+<!--必要样式-->
+<link rel="stylesheet" href="css/common.css"/>
+<link rel='stylesheet' type="text/css" href='css/iconfont.css'>
+<link rel="stylesheet" type="text/css" href="css/index.css">
+<script src="js/DOMReady.js"></script>
+<script src="js/elastic.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/move.js"></script>
+<script src="js/findDir.js"></script>
+<script src="js/getPos.js"></script>
+<script src="mp3/sound.js"></script>
+<script src="js/turn.js"></script>
+<script src="js/clock.js"></script>
+<script>
 
-            var oW=800;
-            var oH=400;
-            var bTrue=false;
-            var timer=null;
-            var len=20;
-            var dir='right';
-            var arrFood=[];
-            var food=null;
-            var speed=200;
-            var oX=Math.floor(oW/len);
-            var oY=Math.floor(oH/len);
-
-            oMain.style.width=oW+'px';
-            oMain.style.height=oH+'px';
-            createFood();
-            createSnack();
-
-            var iNow=0;
-            oAcc.onclick=function(){
-                speed-=20;
-                iNow++;
-                this.value='级别'+iNow;
-                if(iNow>=6){
-                    this.disabled=true;
-                }
-            };
-            reStart.onclick=function(){
-                var t=confirm('是否重置？');
-                if(t){
-                    window.location.reload();
-                }
-            };
-            oStart.onclick=move;
-            oPause.onclick=pause;
-
-            function pause(){
-                if(bTrue){
-                    move();
-                    oPause.value='暂停(space)';
-                }else{
-                    clearInterval(timer);
-                    oPause.value='继续(space)';
-                }
-                bTrue=!bTrue;
-            };
-            function createFood(){
-                arrFood=[rnd(0,oX),rnd(0,oY)];
-                if(food==null){
-                    food=document.createElement('div');
-
-                    food.style.background='pink';
-                    food.style.width=20+'px';
-                    food.style.height=20+'px';
-                    food.style.position='absolute';
-
-                    oMain.appendChild(food);
-                }
-                food.style.left=arrFood[0]*20+'px';
-                food.style.top=arrFood[1]*20+'px';
-                //return arr;
-            }
-            function setPos(obj,n){
-                obj.style.left=snackBody[n].left*len+'px';
-                obj.style.top=snackBody[n].top*len+'px';
-                obj.style.background=snackBody[n].background;
-            }
-            function createSnack(){
-                for(var i=0;i<snackBody.length;i++){
-                    //alert(1);
-                    if(snackBody[i].obj==null){
-                        //alert(1);
-                        snackBody[i].obj=document.createElement('div');
-                        //console.log(snackBody[i].obj);
-                        snackBody[i].obj.style.position='absolute';
-                        snackBody[i].obj.style.width=len+'px';
-                        snackBody[i].obj.style.height=len+'px';
-                        oMain.appendChild(snackBody[i].obj);
-
-                    }
-                    setPos(snackBody[i].obj,i);
-                }
-            }
-            function move(){
-                clearInterval(timer);
-                timer=setInterval(function(){
-                    for(var i=0;i<snackBody.length-1;i++){
-                        snackBody[i].left=snackBody[i+1].left;
-                        snackBody[i].top=snackBody[i+1].top;
-                    }
-                    switch (dir){
-                        case 'left':
-                            snackBody[snackBody.length-1].left--;
-                            break;
-                        case 'right':
-                            snackBody[snackBody.length-1].left++;
-                            break;
-                        case 'top':
-                            snackBody[snackBody.length-1].top--;
-                            break;
-                        case 'bottom':
-                            snackBody[snackBody.length-1].top++;
-                            break;
-                    }
-
-                    var aSnack=snackBody[snackBody.length-1];
-                    if((arrFood[0]==aSnack.left)&&(arrFood[1]==aSnack.top)){
-                        oScore.innerHTML++;
-                        if(oScore.innerHTML>=3){
-                            speed=180;
-                        }else if(oScore.innerHTML>=6){
-                            speed=160;
-                        }else if(oScore.innerHTML>=9){
-                            speed=140;
-                        }else if(oScore.innerHTML>=12){
-                            speed=120;
-                        }else if(oScore.innerHTML>=15){
-                            speed=100
-                        }else if(oScore.innerHTML>=18){
-                            speed=80;
-                        }
-                        var json={left:snackBody[0].left,top:snackBody[0].top,background:snackBody[0].background,obj:null};
-                        snackBody.unshift(json);
-                        //console.log(json);
-                        createFood();
-                    }
-                    if(aSnack.left<0||aSnack.top<0||aSnack.left>oX-1||aSnack.top>oY-1){
-                        alert('game over!');
-                        clearInterval(timer);
-                        return;
-                    }
-                    for(var i=0;i<snackBody.length-1;i++){
-                        if((aSnack.left==snackBody[i].left)&&(aSnack.top==snackBody[i].top)){
-                            alert('吃到自己了,game over!');
-                            clearInterval(timer);
-                            return;
-                        }
-                    }
-                    createSnack();
-                },speed);
-            }
-
-
-            document.onkeydown=function(ev){
-                var oEvent=ev||event;
-
-                switch (oEvent.keyCode){
-                    case 37:
-                        dir='left';
-                        break;
-                    case 38:
-                        dir='top';
-                        break;
-                    case 39:
-                        dir='right';
-                        break;
-                    case 40:
-                        dir='bottom';
-                        break;
-                    case 32:
-                        pause();
-                        break;
-                }
-            };
-        });
-    </script>
+</script>
 </head>
 <body>
-    <div id="box">
-        <input id="open" type="button" value="开始游戏"/>
-        <input id="pause" type="button" value="暂停（space键）"/>
-        <input id="accelerate" type="button" value="加速"/>
-        <input id="restart" type="button" value="重新开始"/>
-        <span>当前积分：<strong class="score">0</strong></span>
-        <div id="main"></div>
+<!--公用头部-->
+<div class="head">
+    <div id="h_con">
+        <p>据说聪明人3秒钟可以记住这个网址!!!&nbsp;&nbsp;&nbsp;本网站含有大量的H5效果，请使用chrome浏览器查看</p>
     </div>
+    <div class="nav">
+        <div class="logo">
+            <a href="index.html">Crise</a>
+        </div>
+        <div class="navTxt">
+            <div class="hover"></div>
+            <a href="index.html">首&nbsp;页</a><span>|</span>
+            <a href="h5demo.html" target="_blank">H5 demo</a><span>|</span>
+            <a href="personshow.html" target="_blank">个人 show</a><span>|</span>
+            <a href="JSdemo.html" target="_blank">JS demo</a><span>|</span>
+            <a href="fishingTalent.html" target="_blank">小游戏</a><span>|</span>
+            <a href="personshow.html#page5" target="_blank">项目经验</a><span>|</span>
+            <a href="javascript:;" target="_blank">blog 博客</a>
+        </div>
+    </div>
+</div>
+<!--内容-->
+<article class="container">
+    <ul class="metro">
+        <li>
+            <a href="JSdemo.html" target="_blank">
+                <i class="iconfont">&#xe73b;</i><span>H5 demo</span>
+                <div>
+                    <h3>H5 demo</h3>
+                    <hr><p>工作中遇到的以及工作之余总结的各种H5小demo</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="personshow.html" target="_blank">
+                <i class="iconfont">&#xf0142;</i><span>个人show</span>
+                <div class="show">
+                    <h3>个人 SHOW</h3>
+                    <hr><p>用jQuery写的个人简历</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="jsdemo.html" target="_blank">
+                <i class="iconfont">&#xe695;</i><span>JS demo</span>
+                <div>
+                    <h3>JS demo</h3>
+                    <hr><p>工作中遇到的以及工作之余总结的各种JS小demo</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="fishingTalent.html" target="_blank">
+                <i class="iconfont">&#xe6a0;</i><span>小游戏</span>
+                <div>
+                    <h3>小游戏</h3>
+                    <hr><p>无聊时用面向对象写的各种游戏效果</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="personshow.html#page5" target="_blank">
+                <i class="iconfont">&#xe617;</i><span>项目经验</span>
+                <div>
+                    <h3>项目经验</h3>
+                    <hr><p>工作中做过的项目</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="#" target="_blank">
+                <i class="iconfont" style="top:-10px;font-size: 140px;">&#xe604;</i><span>blog博客</span>
+                <div>
+                    <h3>blog博客</h3>
+                    <hr><p>关于前端的技术分享</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="favorites.html" target="_blank">
+                <i class="iconfont">&#xe756;</i><span>Favorites</span>
+                <div>
+                    <h3>Favorites</h3>
+                    <hr><p>嘿嘿，这里本应该有，但我就是不写</p>
+                </div>
+            </a>
+        </li>
+    </ul>
+    <!--<div class="box">-->
+        <!--<span class="close"></span>-->
+        <!--<p></p>-->
+    <!--</div>-->
+</article>
+<div class="footer">
+    <div id="clock_3d">
+        <div class="d_container" >
+            <div class="num_container">
+                <ul style="transform: rotateX(0deg);">
+                    <li class="clock_3d_front"><span>1</span></li>
+                    <li class="clock_3d_back"><span>1</span></li>
+                    <li class="clock_3d_top"><span>1</span></li>
+                    <li class="clock_3d_bottom"><span>1</span></li>
+                </ul>
+            </div>
+            <div class="num_container">
+                <ul style="transform: rotateX(0deg);">
+                    <li class="clock_3d_front"><span>9</span></li>
+                    <li class="clock_3d_back"><span>9</span></li>
+                    <li class="clock_3d_top"><span>9</span></li>
+                    <li class="clock_3d_bottom"><span>9</span></li>
+                </ul>
+            </div>
+            <span class="split">:</span>
+            <div class="num_container">
+                <ul style="transform: rotateX(0deg);">
+                    <li class="clock_3d_front"><span>2</span></li>
+                    <li class="clock_3d_back"><span>2</span></li>
+                    <li class="clock_3d_top"><span>2</span></li>
+                    <li class="clock_3d_bottom"><span>2</span></li>
+                </ul>
+            </div>
+            <div class="num_container">
+                <ul style="transform: rotateX(0deg);">
+                    <li class="clock_3d_front"><span>0</span></li>
+                    <li class="clock_3d_back"><span>0</span></li>
+                    <li class="clock_3d_top"><span>0</span></li>
+                    <li class="clock_3d_bottom"><span>0</span></li>
+                </ul>
+            </div>
+            <span class="split">:</span>
+            <div class="num_container">
+                <ul style="transform: rotateX(0deg);">
+                    <li class="clock_3d_front"><span>4</span></li>
+                    <li class="clock_3d_back"><span>4</span></li>
+                    <li class="clock_3d_top"><span>4</span></li>
+                    <li class="clock_3d_bottom"><span>4</span></li>
+                </ul>
+            </div>
+            <div class="num_container">
+                <ul style="transform: rotateX(0deg);">
+                    <li class="clock_3d_front"><span>1</span></li>
+                    <li class="clock_3d_back"><span>3</span></li>
+                    <li class="clock_3d_top"><span>2</span></li>
+                    <li class="clock_3d_bottom"><span>0</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<script src="js/jquery-2.1.1.min.js" type="text/javascript"></script>-->
+<!--<script type="text/javascript">-->
+<!--$(document).ready(function () {-->
+	<!--var $box = $('.box');-->
+	<!--//$('.metro li').each(function () {-->
+		<!--var color = $('.metro li')[6].css('backgroundColor');-->
+		<!--var content = $('.metro li')[6].html();-->
+		<!--$('.metro li')[6].click(function () {-->
+			<!--$box.css('backgroundColor', color);-->
+			<!--$box.addClass('open');-->
+			<!--$box.find('p').html(content);-->
+		<!--});-->
+		<!--$('.close').click(function () {-->
+			<!--$box.removeClass('open');-->
+			<!--$box.css('backgroundColor', 'transparent');-->
+		<!--});-->
+	<!--//});-->
+<!--});-->
+<!--</script>-->
+
 </body>
 </html>

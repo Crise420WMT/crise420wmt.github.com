@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{margin: 0;padding: 0;list-style: none;}
+        #oul{width: 330px;margin: 100px auto;position: relative;}
+        #oul li{box-shadow: 2px 2px 100px;border-radius: 5px;width: 100px;height: 100px;margin: 0 10px 10px 0;float: left;background:blue;}
+        #oul li.ac{box-shadow: 2px 2px 5px;z-index: 10;}
+    </style>
+    <script src="js/move.js"></script>
+    <script>
+        function rnd(n,m){
+            return parseInt(Math.random()*(m-n))+n;
+        }
+        window.onload=function(){
+            var oDiv=document.getElementById('oul');
+            var aLi=oDiv.children;
+            var arr=[];
+
+            for(var i=0;i<aLi.length;i++){
+                arr.push({left:aLi[i].offsetLeft,top:aLi[i].offsetTop});
+            }
+            for(var i=0;i<aLi.length;i++){
+                aLi[i].style.position='absolute';
+                aLi[i].style.margin=0;
+                aLi[i].style.left=arr[i].left+'px';
+                aLi[i].style.top=arr[i].top+'px';
+                aLi[i].style.background='rgb('+rnd(0,256)+','+rnd(0,256)+','+rnd(0,256)+')';
+            }
+            oDiv.onmouseover=function(ev){
+                var oTarget=ev.target||window.event.srcElement;
+
+                if(oTarget.tagName=='LI'){
+                    oTarget.className='ac';
+                    move(oTarget,{width:150,height:150,marginLeft:-25,marginTop:-25});
+                }
+            };
+            oDiv.onmouseout=function(ev){
+                var oTarget=ev.target||window.event.srcElement;
+
+                oTarget.className='';
+                move(oTarget,{width:100,height:100,margin:0});
+            };
+        };
+    </script>
+</head>
+<body>
+<div id="oul">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</div>
+</body>
+</html>

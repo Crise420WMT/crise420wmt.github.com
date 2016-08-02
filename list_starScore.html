@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>星星评分</title>
+<style>
+    *{ margin:0; padding:0; list-style:none;}
+    #oUl{ width:175px; margin:100px auto;}
+    #oUl li{ float:left;}
+    #oUl li.lef{ width:14px; height:27px;background:url("image/star.gif")0 0 no-repeat;}
+    #oUl li.rig{ width:14px; height:27px; background:url("image/star.gif")-14px 0 no-repeat;}
+
+    #oUl li.lef_ac{ width:14px; height:27px; background:url("image/star.gif")0 -29px no-repeat;}
+    #oUl li.rig_ac{ width:14px; height:27px; background:url("image/star.gif")-14px -29px no-repeat;}
+</style>
+<script>
+    window.onload=function(){
+        var oUl=document.getElementById('oUl');
+        var aBtn=oUl.getElementsByTagName('li');
+
+        for(var i=0;i<aBtn.length;i++){
+            if(i%2){
+                aBtn[i].className='rig';
+            }else{
+                aBtn[i].className='lef';
+            }
+        }
+
+        for(var i=0;i<aBtn.length;i++){
+            aBtn[i].index=i;
+            aBtn[i].onmouseover=function(){
+                for(var i=0;i<aBtn.length;i++){
+                    if(this.index>=i){
+                        if(i%2){
+                            aBtn[i].className='rig_ac';
+                        }else{
+                            aBtn[i].className='lef_ac';
+                        }
+                    }else{
+                        if(i%2){
+                            aBtn[i].className='rig';
+                        }else{
+                            aBtn[i].className='lef';
+                        }
+                    }
+                }
+            };
+        }
+
+    }
+</script>
+</head>
+<body>
+<div id="oUl">
+    <li class="lef"></li>
+    <li class="rig"></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</div>
+</body>
+</html>

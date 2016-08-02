@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>三维图片轮换</title>
+<link href="css/list_3dpic.css" rel="stylesheet" />
+   <script src="js/tween.js"></script>
+    <script>
+        function getStyle(obj,name){
+            return (obj.currentStyle||getComputedStyle(obj,false))[name];
+        }
+        window.onload=function(){
+            var oUl=document.getElementById('znsRotatePic');
+            var aLi=oUl.getElementsByTagName('li');
+            var aBtn=document.getElementsByTagName('input');
+            var aImg=oUl.getElementsByTagName('img');
+
+            var arr=[];
+            for(var i=0;i<aLi.length;i++){
+                //var cur=parseFloat(getStyle(aImg[i],'opacity'));
+                //var index=parseFloat(getStyle(aLi[i],'z-Index'));
+                arr.push({left:aLi[i].offsetLeft,top:aLi[i].offsetTop,opacity:getStyle(aImg[i],'opacity'),zIndex:getStyle(aLi[i],'z-index'),width:aImg[i].offsetWidth,imgT:aImg[i].offsetTop});
+                //aLi[i].style.zIndex=
+            }
+            function run(){
+                for(var i=0;i<aLi.length;i++){
+                    tween(aLi[i],{left:arr[i].left,top:arr[i].top,zIndex:arr[i].zIndex});
+                    tween(aImg[i],{opacity:arr[i].opacity,width:arr[i].width,top:arr[i].imgT});
+                }
+            }
+            aBtn[1].onclick=function(){
+                arr.push(arr.shift());
+               run();
+            };
+            aBtn[0].onclick=function(){
+                arr.unshift(arr.pop());
+                run();
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+<span id="txt"></span>
+<input type="button" value="往左走" id="btn1" />
+<input type="button" value="往右走" id="btn2" />
+<ul id="znsRotatePic">
+	<li class="pic1">
+		<a href="http://baidu.com/"><img src="image/3dStage_pic1.gif" alt="pic1" class="unactive" longdesc="http://www.zns.com" width="187" /></a><!-- 208 -->
+		<span></span>
+	</li>
+	<li class="pic2">
+		<a href="http://google.com/"><img src="image/3dStage_pic2.gif" alt="pic2" longdesc="http://www.zns.com" width="208" /></a>
+		<span></span>
+	</li>
+	<li class="pic3">
+		<a href="javascript:;"><img src="image/3dStage_pic3.gif" alt="pic3" class="unactive" longdesc="http://www.zns.com" width="187" /></a>
+		<span></span>
+	</li>
+</ul>
+
+</body>
+</html>
