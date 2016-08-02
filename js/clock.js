@@ -28,7 +28,7 @@ domReady(function(){
     function clear(){
         clearInterval(timer);
         timer=setInterval(function(){
-            console.log(1);
+            //console.log(1);
             oDiv.style.transition='5s all ease';
             oDiv.style.transform='perspective(1300px) rotateX('+12*iNow+'deg) rotateY('+(12)*iNow+'deg)';
             oDiv.addEventListener('transitionend',function(){
