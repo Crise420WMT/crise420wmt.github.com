@@ -12,15 +12,15 @@
 <script src="js/clock.js"></script>
 <script>
     var arrImg=[
-        {href:'h5_3Dcorridor.html',src:'3Dcorridor.jpg',word:'左右移动旋转y轴，上下移动改变景深，主要改变transform'},
+        {href:'h5_3Dcorridor.html',src:'image/3Dcorridor.jpg',word:'左右移动旋转y轴，上下移动改变景深，主要改变transform'},
         //{href:'h5_3dEffect.html',src:'3'}
-        {href:'h5_3dRing.html',src:'3dRing.jpg',word:'3d环的特效显示，可上下左右拖动'},
-        {href:'h5_screenSave.html',src:'screenSave.jpg',word:'屏幕保护效果，主要用到canvas实现'},
-        {href:'h5_3dEffect2.html',src:'3dEffect_1.jpg',word:'图片的3d翻面效果，仿游戏网站'},
-        {href:'drawBoard.html',src:'drawBoard.jpg',word:'模拟画图板效果，主要用到canvas实现'},
-        {href:'h5_3dEffect1.html',src:'3dEffect_0.jpg',word:'图片的3d屏幕碎裂效果，仿电视镜头'},
-        {href:'h5_moreabtn.html',src:'moreabtn.jpg',word:'丰富的按钮效果，主要用到css3'},
-        {href:'h5_3dEffect3.html',src:'3dEffect_2.jpg',word:'图片的3d翻书效果，灵感来源于国外的threeJs网站'},
+        {href:'h5_3dRing.html',src:'image/3dRing.jpg',word:'3d环的特效显示，可上下左右拖动'},
+        {href:'h5_screenSave.html',src:'image/screenSave.jpg',word:'屏幕保护效果，主要用到canvas实现'},
+        {href:'h5_3dEffect2.html',src:'image/3dEffect_1.jpg',word:'图片的3d翻面效果，仿游戏网站'},
+        {href:'drawBoard.html',src:'image/drawBoard.jpg',word:'模拟画图板效果，主要用到canvas实现'},
+        {href:'h5_3dEffect1.html',src:'image/3dEffect_0.jpg',word:'图片的3d屏幕碎裂效果，仿电视镜头'},
+        {href:'h5_moreabtn.html',src:'image/moreabtn.jpg',word:'丰富的按钮效果，主要用到css3'},
+        {href:'h5_3dEffect3.html',src:'image/3dEffect_2.jpg',word:'图片的3d翻书效果，灵感来源于国外的threeJs网站'},
         {}
     ];
     domReady(function(){
@@ -33,7 +33,7 @@
 
         for(var i=0;i<aLi.length;i++){
             arr[i]=aLi[i].className;
-            aLi[i].innerHTML='<a href="'+arrImg[i].href+'" target="_blank"><img src="image/'+arrImg[i].src+'">'
+            aLi[i].innerHTML='<a href="'+arrImg[i].href+'" target="_blank"><img src="'+arrImg[i].src+'">'
                     +'<div class="div_hidden">'+arrImg[i].word+'</div></a>';
             aLi[i].children[0].children[0].style.width=480+'px';
             aLi[i].children[0].children[0].style.height=316+'px';
